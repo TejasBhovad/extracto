@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root,
+html,
+body {
+	height: 100%;
+}
+
+@layer base {
+	body {
+		@apply bg-gradient-to-br from-slate-50 to-slate-300;
+	}
+}
