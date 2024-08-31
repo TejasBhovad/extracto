@@ -1,4 +1,5 @@
 <script>
+	import '@fontsource/fredoka-one';
 	import '../app.css';
 	import Navbar from '../components/navbar.svelte';
 </script>
@@ -44,5 +45,8 @@
 		100% {
 			background-position: 0 620px;
 		}
+	}
+	:global(.sketch-font) {
+		font-family: 'Fredoka One', system-ui;
 	}
 </style>

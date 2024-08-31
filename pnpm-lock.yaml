@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@fontsource/fredoka-one':
+        specifier: ^5.0.5
+        version: 5.0.5
     devDependencies:
       '@fontsource/fira-mono':
         specifier: ^5.0.0
@@ -245,6 +249,9 @@ packages:
 
   '@fontsource/fira-mono@5.0.14':
     resolution: {integrity: sha512-4IKa+cuHipk/vr2frgZh4pyR2XcoQk/j3zmMlo8uuAGUB3IPLpQlgN6Qm5d3RfRZ7dXGlTn/PWiAJeU8bkmD4w==}
+
+  '@fontsource/fredoka-one@5.0.5':
+    resolution: {integrity: sha512-cSpibxKqsrZCGJAisYkptDcr0O+gjk8h0RQxIqoiXEhXMaI2x7wc8Zyl6HyUUTTH5wHxi0tlM7zyQ4zwADVHiw==}
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -1639,6 +1646,8 @@ snapshots:
   '@eslint/object-schema@2.1.4': {}
 
   '@fontsource/fira-mono@5.0.14': {}
+
+  '@fontsource/fredoka-one@5.0.5': {}
 
   '@humanwhocodes/module-importer@1.0.1': {}
 
