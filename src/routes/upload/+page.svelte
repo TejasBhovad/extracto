@@ -3,24 +3,72 @@
 	import FileOptions from '../../components/file-options.svelte';
 	import { createUploader } from '$lib/utils/uploadthing';
 	import { UploadDropzone } from '@uploadthing/svelte';
+	import { PUBLIC_TEMP_UPLOAD_URL, PUBLIC_DEV_MODE } from '$env/static/public';
 
 	const categories = ['text', 'pdf'];
-	let uploadedFileUrl = '';
+	let selectedCategory = 'pdf';
+	let uploadeFileName = '';
+	let uploadedFileUrl = PUBLIC_DEV_MODE == 'True' ? PUBLIC_TEMP_UPLOAD_URL : '';
 
-	const uploader = createUploader('imageUploader', {
+	const uploader = createUploader('pdfUploader', {
 		onClientUploadComplete: (res) => {
 			console.log(`onClientUploadComplete`, res);
-			alert('Upload Completed');
-			uploadedFileUrl = res[0]?.url || ''; // Store the uploaded file URL from the response
+			// alert('Upload Completed');
+			uploadedFileUrl = res[0]?.url || '';
+			uploadeFileName = res[0]?.name || '';
 		},
 		onUploadError: (error) => {
 			alert(`ERROR! ${error.message}`);
 		}
 	});
 
-	// Function that logs processing of the file
-	function processFile() {
-		console.log('Processing file...');
+	async function processFile() {
+		console.log('Processing file...', uploadedFileUrl);
+		console.log('Selected Category:', selectedCategory);
+
+		if (selectedCategory === 'text') {
+			const apiUrl = `https://pdf-highlights.vercel.app/api/generate-pdf?pdf_path=${uploadedFileUrl}`;
+			try {
+				const response = await fetch(apiUrl);
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				const blob = await response.blob();
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement('a');
+				a.style.display = 'none';
+				a.href = url;
+				a.download = uploadeFileName.replace('.pdf', '_highlighted.pdf');
+				document.body.appendChild(a);
+				a.click();
+				window.URL.revokeObjectURL(url);
+				alert('File downloaded successfully', uploadeFileName);
+			} catch (error) {
+				console.error('Error processing file:', error);
+				alert(`ERROR! ${error.message}`);
+			}
+		} else if (selectedCategory === 'pdf') {
+			const apiUrl = `https://pdf-highlights.vercel.app/api/get-highlighted-page?pdf_path=${uploadedFileUrl}`;
+			try {
+				const response = await fetch(apiUrl);
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				const blob = await response.blob();
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement('a');
+				a.style.display = 'none';
+				a.href = url;
+				a.download = uploadeFileName.replace('.pdf', '_highlighted_page.pdf');
+				document.body.appendChild(a);
+				a.click();
+				window.URL.revokeObjectURL(url);
+				alert('File downloaded successfully');
+			} catch (error) {
+				console.error('Error processing file:', error);
+				alert(`ERROR! ${error.message}`);
+			}
+		}
 	}
 </script>
 
@@ -31,27 +79,34 @@
 		Upload PDF files
 	</h1>
 	<div
-		class="card flex h-3/4 max-h-[450px] w-full max-w-[450px] flex-col rounded-lg bg-white shadow-sm transition-all sm:w-2/3"
+		class="card flex h-auto max-h-[450px] w-full max-w-[450px] flex-col rounded-lg bg-white shadow-sm transition-all sm:w-2/3"
 	>
-		<FileOptions {categories} />
-		<div class="h-full px-4">
+		<FileOptions
+			{categories}
+			{selectedCategory}
+			on:categoryChange={(event) => (selectedCategory = event.detail)}
+		/>
+		<div class="aspect-square w-full px-4 py-2">
 			{#if uploadedFileUrl}
-				<!-- Show the uploaded file -->
-				<div class="uploaded-file">
-					<p>Uploaded File:</p>
-					<a href={uploadedFileUrl} target="_blank" class="text-blue-500 underline"
-						>{uploadedFileUrl}</a
-					>
-				</div>
+				<iframe
+					src={uploadedFileUrl}
+					width="100%"
+					style="border:none;"
+					title="PDF Viewer"
+					class="h-full w-full"
+				></iframe>
 			{:else}
-				<!-- Show the dropzone -->
-				<UploadDropzone {uploader} />
+				<UploadDropzone
+					{uploader}
+					class="flex h-full w-full items-center justify-center rounded-md"
+				/>
 			{/if}
 		</div>
 		<div class="px-4 py-4">
 			<button
-				class="w-full rounded-md bg-blue-500 py-2 text-white shadow-md hover:bg-blue-600"
+				class="w-full rounded-md bg-blue-500 py-2 text-white shadow-md hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-blue-500"
 				on:click={processFile}
+				disabled={uploadedFileUrl === ''}
 			>
 				Process
 			</button>

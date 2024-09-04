@@ -1,9 +1,16 @@
 <script>
 	import { createTabs } from 'svelte-headlessui';
+	import { createEventDispatcher } from 'svelte';
 
 	export let categories = [];
+	const dispatch = createEventDispatcher();
 
 	const tabs = createTabs({ selected: categories[0] || 'text' });
+
+	// Watch for changes in the selected tab and dispatch an event
+	$: {
+		dispatch('categoryChange', $tabs.selected);
+	}
 
 	function renderContent(value) {
 		if (value === 'text') {
