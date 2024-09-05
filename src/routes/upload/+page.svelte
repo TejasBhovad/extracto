@@ -8,6 +8,7 @@
 	const categories = ['text', 'pdf'];
 	let selectedCategory = 'pdf';
 	let uploadeFileName = '';
+	let uploadedFileKey = '';
 	let uploadedFileUrl = PUBLIC_DEV_MODE == 'True' ? PUBLIC_TEMP_UPLOAD_URL : '';
 
 	const uploader = createUploader('pdfUploader', {
@@ -16,11 +17,29 @@
 			// alert('Upload Completed');
 			uploadedFileUrl = res[0]?.url || '';
 			uploadeFileName = res[0]?.name || '';
+			uploadedFileKey = res[0]?.key || '';
 		},
 		onUploadError: (error) => {
 			alert(`ERROR! ${error.message}`);
 		}
 	});
+
+	async function deleteFiles() {
+		const response = await fetch('/api/delete', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				files: [], // Add your file names here
+				fileKeys: [uploadedFileKey],
+				customIds: [] // Add your custom IDs here
+			})
+		});
+
+		const data = await response.json();
+		console.log(data); // Handle the response from the API
+	}
 
 	async function processFile() {
 		console.log('Processing file...', uploadedFileUrl);
@@ -46,6 +65,8 @@
 			} catch (error) {
 				console.error('Error processing file:', error);
 				alert(`ERROR! ${error.message}`);
+			} finally {
+				await deleteFiles();
 			}
 		} else if (selectedCategory === 'pdf') {
 			const apiUrl = `https://pdf-highlights.vercel.app/api/get-highlighted-page?pdf_path=${uploadedFileUrl}`;
@@ -67,6 +88,8 @@
 			} catch (error) {
 				console.error('Error processing file:', error);
 				alert(`ERROR! ${error.message}`);
+			} finally {
+				await deleteFiles();
 			}
 		}
 	}
