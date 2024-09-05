@@ -24,6 +24,7 @@
 			>Extract highlighted notes from your PDFs
 		</span>
 		<a
+			data-sveltekit-reload
 			href="/upload"
 			class="mt-6 rounded-md bg-blue-300 px-10 py-2 text-sm font-bold text-blue-700 shadow-md transition-all hover:bg-opacity-75 hover:text-blue-600 sm:px-14 sm:text-lg"
 			>Upload PDF</a
