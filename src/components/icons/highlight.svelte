@@ -1,4 +1,6 @@
-<div class="absolute -z-10 w-auto -translate-y-1 translate-x-3 scale-[35%] sm:scale-50">
+<div
+	class="absolute -z-10 w-auto -translate-y-6 translate-x-2 scale-[25%] sm:-translate-y-4 sm:scale-50"
+>
 	<svg
 		width="560"
 		height="106"
