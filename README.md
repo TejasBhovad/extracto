@@ -4,6 +4,9 @@
 
 Extract Highlighted text from PDF or just the pages of the PDF which contain highlighted text.
 
+![Extracto](github/Extractool.jpeg)
+![Upload](github/upload.jpeg)
+
 > Server Repository: [https://github.com/TejasBhovad/pdf-highlights](https://github.com/TejasBhovad/pdf-highlights)
 
 ## Features

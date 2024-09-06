@@ -6,7 +6,7 @@ export async function POST({ request }) {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			'X-Uploadthing-Api-Key': env.UPLOADTHING_SECRET // Replace with your actual token
+			'X-Uploadthing-Api-Key': env.UPLOADTHING_SECRET
 		},
 		body: JSON.stringify({
 			files,

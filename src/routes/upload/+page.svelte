@@ -3,13 +3,13 @@
 	import FileOptions from '../../components/file-options.svelte';
 	import { createUploader } from '$lib/utils/uploadthing';
 	import { UploadDropzone } from '@uploadthing/svelte';
-	import { PUBLIC_TEMP_UPLOAD_URL, PUBLIC_DEV_MODE } from '$env/static/public';
+	// import { PUBLIC_TEMP_UPLOAD_URL, PUBLIC_DEV_MODE } from '$env/static/public';
 
 	const categories = ['text', 'pdf'];
 	let selectedCategory = 'pdf';
 	let uploadeFileName = '';
 	let uploadedFileKey = '';
-	let uploadedFileUrl = PUBLIC_DEV_MODE == 'True' ? PUBLIC_TEMP_UPLOAD_URL : '';
+	let uploadedFileUrl = '';
 
 	const uploader = createUploader('pdfUploader', {
 		onClientUploadComplete: (res) => {
