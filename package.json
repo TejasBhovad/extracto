@@ -12,6 +12,7 @@
 		"test:unit": "vitest"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "^4.10.0",
 		"@fontsource/fira-mono": "^5.0.0",
 		"@neoconfetti/svelte": "^2.0.0",
 		"@playwright/test": "^1.28.1",
