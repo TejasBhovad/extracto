@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
 
 test('home page has expected h1', async ({ page }) => {
 	await page.goto('/');

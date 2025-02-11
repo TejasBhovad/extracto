@@ -109,7 +109,7 @@
 			{selectedCategory}
 			on:categoryChange={(event) => (selectedCategory = event.detail)}
 		/>
-		<div class="aspect-square w-full px-4 py-2">
+		<div class="  h-full w-full px-8 py-2 sm:px-4">
 			{#if uploadedFileUrl}
 				<iframe
 					src={uploadedFileUrl}
@@ -121,7 +121,7 @@
 			{:else}
 				<UploadDropzone
 					{uploader}
-					class="flex h-full w-full items-center justify-center rounded-md"
+					class="flex h-full w-full items-center justify-center rounded-md "
 				/>
 			{/if}
 		</div>
