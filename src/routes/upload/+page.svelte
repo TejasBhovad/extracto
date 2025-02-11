@@ -49,7 +49,10 @@
 			const apiUrl = `https://pdf-highlights.vercel.app/api/generate-pdf?pdf_path=${uploadedFileUrl}`;
 			try {
 				const response = await fetch(apiUrl);
-				if (!response.ok) {
+				if (response.status === 404) {
+					alert('No highlighted text found.');
+					return;
+				} else if (!response.ok) {
 					throw new Error('Network response was not ok');
 				}
 				const blob = await response.blob();
